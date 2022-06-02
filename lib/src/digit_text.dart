@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'math/display_oper.dart';
+
 class DigitText extends StatelessWidget {
   final String text;
   double fontSize;
@@ -9,7 +11,7 @@ class DigitText extends StatelessWidget {
   final Color _color = const Color(0xFF376794);
 
   DigitText(this.text,
-      {Key? key, this.letterSpacing = 10, required this.fontSize})
+      {Key? key, this.letterSpacing = 0, required this.fontSize})
       : super(key: key);
 
   @override

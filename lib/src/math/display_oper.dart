@@ -9,7 +9,7 @@ class DisplayOperText extends StatelessWidget {
   final Color _color = const Color(0xFF376794);
 
   DisplayOperText(this.text,
-      {Key? key, this.letterSpacing = 10, required this.fontSize})
+      {Key? key, this.letterSpacing = 0, required this.fontSize})
       : super(key: key);
 
   @override
@@ -18,51 +18,65 @@ class DisplayOperText extends StatelessWidget {
   }
 
   Widget _displayOper(String text, {required double fontSize}) {
+    IconData? icon;
+    double paddingWidth = 10.0;
+    double marginVertical = 0.0;
+    double dotPadding = 0.0;
+    int repeat = 1;
     if (text == "+") {
-      // return Icon(
-      //   CupertinoIcons.plus,
-      //   size: 60,
-      //   color: Colors.lightGreen,
-      // );
-      return Container(
-        //padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Text(
-          String.fromCharCode(CupertinoIcons.plus.codePoint),
-          style: TextStyle(
-            inherit: false,
-            color: _color,
-            fontSize: fontSize,
-            letterSpacing: letterSpacing,
-            fontWeight: FontWeight.bold,
-            fontFamily: CupertinoIcons.plus.fontFamily,
-            package: CupertinoIcons.plus.fontPackage,
-          ),
-        ),
-      );
+      icon = CupertinoIcons.plus;
     } else if (text == "-") {
-      // return Icon(
-      //   CupertinoIcons.plus,
-      //   size: 60,
-      //   color: Colors.lightGreen,
-      // );
+      icon = CupertinoIcons.minus;
+    } else if (text == "*") {
+      icon = CupertinoIcons.multiply;
+    } else if (text == "=") {
+      icon = CupertinoIcons.equal;
+    } else if (text == "div") {
+      icon = CupertinoIcons.divide;
+    } else if (text == "rightarrow") {
+      icon = CupertinoIcons.arrow_right;
+      fontSize -= 5; // 화살표의 사이즈가 다른 아이콘보다 크다.
+    } else if (text == "downarrow") {
+      icon = CupertinoIcons.arrow_down;
+      marginVertical = 10;
+    } else if (text == "...") {
+      icon = CupertinoIcons.circle_fill;
+      fontSize = 8;
+      repeat = 3;
+      dotPadding = 3;
+    }
+
+    if (fontSize > 15) {
+      paddingWidth = 5;
+    }
+
+    if (icon != null) {
       return Container(
-        // padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Text(
-          String.fromCharCode(CupertinoIcons.minus.codePoint),
-          style: TextStyle(
-            inherit: false,
-            color: _color,
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            fontFamily: CupertinoIcons.minus.fontFamily,
-            package: CupertinoIcons.minus.fontPackage,
-          ),
+        padding: EdgeInsets.symmetric(horizontal: paddingWidth),
+        margin: EdgeInsets.symmetric(vertical: marginVertical),
+        child: Row(
+          children: List.generate(
+            repeat,
+            (index) => Padding(
+              padding: EdgeInsets.all(dotPadding),
+              child: Text(
+                String.fromCharCode(icon!.codePoint),
+                style: TextStyle(
+                  inherit: false,
+                  color: _color,
+                  fontSize: fontSize,
+                  letterSpacing: letterSpacing,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: icon.fontFamily,
+                  package: icon.fontPackage,
+                ),
+              ),
+            ),
+          ).toList(),
         ),
       );
     }
-    if (text == "div") {
-      return const Icon(CupertinoIcons.divide);
-    }
-    return Text(text + "_displayOper");
+
+    return Text(text + "oper 설정 해야 함");
   }
 }
