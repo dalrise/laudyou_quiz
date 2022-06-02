@@ -9,7 +9,7 @@ class DigitText extends StatelessWidget {
   final Color _color = const Color(0xFF376794);
 
   DigitText(this.text,
-      {Key? key, this.letterSpacing = 40, required this.fontSize})
+      {Key? key, this.letterSpacing = 10, required this.fontSize})
       : super(key: key);
 
   @override

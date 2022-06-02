@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:laudyou_quiz/laudyou_quiz.dart';
 
 import 'digit_text.dart';
+import 'math/display_oper.dart';
 
 class QuizMathBasic extends StatelessWidget {
   final String expression;
@@ -43,53 +44,6 @@ class QuizMathBasic extends StatelessWidget {
   }
 
   /// +, -, /, *
-  Widget _displayOper(String text, {required double fontSize}) {
-    if (text == "+") {
-      // return Icon(
-      //   CupertinoIcons.plus,
-      //   size: 60,
-      //   color: Colors.lightGreen,
-      // );
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Text(
-          String.fromCharCode(CupertinoIcons.plus.codePoint),
-          style: TextStyle(
-            inherit: false,
-            color: _color,
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            fontFamily: CupertinoIcons.plus.fontFamily,
-            package: CupertinoIcons.plus.fontPackage,
-          ),
-        ),
-      );
-    } else if (text == "-") {
-      // return Icon(
-      //   CupertinoIcons.plus,
-      //   size: 60,
-      //   color: Colors.lightGreen,
-      // );
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Text(
-          String.fromCharCode(CupertinoIcons.minus.codePoint),
-          style: TextStyle(
-            inherit: false,
-            color: _color,
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            fontFamily: CupertinoIcons.minus.fontFamily,
-            package: CupertinoIcons.minus.fontPackage,
-          ),
-        ),
-      );
-    }
-    if (text == "div") {
-      return const Icon(CupertinoIcons.divide);
-    }
-    return Text(text + "_displayOper");
-  }
 
   Widget _displayIcons(String text) {
     if (text.startsWith("rightarrow")) {
@@ -109,6 +63,46 @@ class QuizMathBasic extends StatelessWidget {
       // }
     }
     return Text(text + "_displayIcons");
+  }
+
+  bool isOperation(String text) {
+    return text == "+" || text == "-" || text == "*" || text == "div";
+  }
+
+  Widget _displaySwitch(String text, double fontSize) {
+    if (isOperation(text)) {
+      return DisplayOperText(text, fontSize: fontSize);
+    } else if (text == "rightarrow" || text == "downarrow" || text == "-") {
+      return _displayIcons(text);
+    } else if (text.startsWith("deco")) {
+      RegExp regexp = RegExp(r'{(.*?)}');
+      String str = regexp.firstMatch(text)?[1] ?? "";
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+          color: Colors.lightGreen,
+          border: Border.all(color: Color(0xFFF66512)),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Center(
+          child: Row(
+            children: List.generate(str.length, (index) {
+              print(str[index]);
+              if (isOperation(str[index])) {
+                return DisplayOperText(str[index], fontSize: fontSize);
+              } else {
+                return DigitText(
+                  str[index],
+                  fontSize: fontSize,
+                );
+              }
+            }).toList(),
+          ),
+        ),
+      );
+    }
+    return DigitText(text, fontSize: fontSize);
   }
 
   Widget _display(String str) {
@@ -144,13 +138,7 @@ class QuizMathBasic extends StatelessWidget {
           (index) {
             final text = arr[index];
 
-            if (text == "+" || text == "-" || text == "*" || text == "div") {
-              return _displayOper(text, fontSize: fontSize);
-            } else if (text == "rightarrow" ||
-                text == "downarrow" ||
-                text == "-") {
-              return _displayIcons(text);
-            }
+            return _displaySwitch(text, fontSize);
 
             if (text.startsWith("spacer")) {
               return Spacer();
@@ -211,31 +199,6 @@ class QuizMathBasic extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(child: Text(str ?? "")),
-              );
-            }
-
-            if (text.startsWith("deco")) {
-              RegExp regexp = RegExp(r'{(.*?)}');
-              String str = regexp.firstMatch(text)?[1] ?? "";
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                decoration: BoxDecoration(
-                  color: Colors.lightGreen,
-                  border: Border.all(color: Color(0xFFF66512)),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Center(
-                  child: Row(
-                    children: List.generate(str.length, (index) {
-                      print(str[index]);
-                      return DigitText(
-                        str[index],
-                        fontSize: fontSize,
-                      );
-                    }).toList(),
-                  ),
-                ),
               );
             }
 
