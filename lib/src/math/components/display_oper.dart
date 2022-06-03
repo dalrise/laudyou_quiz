@@ -27,6 +27,7 @@ class DisplayOperText extends StatelessWidget {
       icon = CupertinoIcons.plus;
     } else if (text == "-") {
       icon = CupertinoIcons.minus;
+      fontSize = fontSize - 7;
     } else if (text == "*") {
       icon = CupertinoIcons.multiply;
     } else if (text == "=") {
@@ -43,6 +44,9 @@ class DisplayOperText extends StatelessWidget {
       icon = CupertinoIcons.circle_fill;
       fontSize = 8;
       repeat = 3;
+      dotPadding = 3;
+    } else if (text == ":") {
+      icon = CupertinoIcons.ellipsis_vertical;
       dotPadding = 3;
     }
 

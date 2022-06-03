@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laudyou_quiz/laudyou_quiz.dart';
 
-import 'digit_text.dart';
-import 'math/display_oper.dart';
+import '../dimensions.dart';
+import 'components/digit_text.dart';
+import './components/display_oper.dart';
 import 'dart:math';
 
 class QuizMathBasic extends StatelessWidget {
@@ -21,7 +22,10 @@ class QuizMathBasic extends StatelessWidget {
   Widget build(BuildContext context) {
     final arr = expression.split('\\');
 
-    double fontSize = _fontSize(arr);
+    //print();
+    print(Dimensions(context).font20);
+
+    double fontSize = _fontSize(arr, context);
     print('fontSize:${fontSize}');
 
     return Container(
@@ -158,7 +162,7 @@ class QuizMathBasic extends StatelessWidget {
     } else if (text.startsWith("bottomline")) {
       RegExp regexp = RegExp(r'{(.*?)}');
       String? str = regexp.firstMatch(text)?[1];
-      double number = fontSize + 2;
+      double number = fontSize;
       return Container(
         width: number,
         height: number,
@@ -178,17 +182,20 @@ class QuizMathBasic extends StatelessWidget {
 
     return Row(
       children: List.generate(text.length, (index) {
-        return DigitText(text[index], fontSize: fontSize);
+        return Padding(
+          padding: const EdgeInsets.only(right: 2.0),
+          child: DigitText(text[index], fontSize: fontSize),
+        );
       }),
     );
 
     //return DigitText(text, fontSize: fontSize);
   }
 
-  double _fontSize(List<String> list) {
+  double _fontSize(List<String> list, BuildContext context) {
     final itemSizeList = list.map((str) {
       final arr = str.split(',');
-      int itemSize = 0;
+      double itemSize = 0.0;
 
       itemSize = arr.map(
         (s) {
@@ -200,7 +207,7 @@ class QuizMathBasic extends StatelessWidget {
 
             // 1 값을 더해서 폰트 사이즈를 더 적게 처리
             if (list.length == 1) {
-              return list[0].length;
+              return list[0].length * 1.0;
             }
             //return 0.0;
             // print(list[0] +
@@ -208,46 +215,72 @@ class QuizMathBasic extends StatelessWidget {
             //     list[1] +
             //     "=" +
             //     max(list[0].length + 1, list[1].length).toString());
-            return max(list[0].length, list[1].length);
+            //print(list);
+            return max(list[0].length * 1.0, list[1].length * 1.0) + 0.5;
+            //return max(list[0].length * 1.0, list[1].length * 1.0);
+          } else if (s == " ") {
+            return 0.5;
           } else if (s == "circle" || s.startsWith("square")) {
-            return 2;
+            return 1.5;
           } else if (s == "rightarrow" ||
               s == "downarrow" ||
               s == "bottomline" ||
               s.startsWith("blank") ||
               s.startsWith("spacer")) {
-            return 1;
+            return 1.0;
+          } else if (s == "+" || s == "-" || s == "*" || s == "=" || s == ":") {
+            return 1.2;
           }
 
           s = s.replaceAll(RegExp(r'[{|}|(|)]'), "");
 
-          return s.length;
+          return s.length * 1.0;
         },
       ).reduce((value, element) => value + element);
 
       return itemSize;
     }).toList();
 
-    int itemSizeMax = itemSizeList.reduce(max);
+    double itemSizeMax = itemSizeList.reduce(max);
 
-    double fontSize = 20;
-    print('itemSizeMax:$itemSizeMax');
-    if (itemSizeMax == 4) {
-      fontSize = 90;
-    } else if (itemSizeMax == 5) {
-      fontSize = 80;
-    } else if (itemSizeMax == 7) {
-      fontSize = 60;
-    } else if (itemSizeMax == 8) {
-      fontSize = 55;
-    } else if (itemSizeMax == 9) {
-      fontSize = 45;
-    } else if (itemSizeMax == 14) {
-      fontSize = 27;
-    } else if (itemSizeMax == 15) {
+    // final aa = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((e) {
+    //   return 100 - (e * 4.5) + 20;
+    // }).toList();
+    // print(aa);
+
+    //double fontSize = 100 - (itemSizeMax * 7.5) + 20;
+    //print('itemSizeMax:$itemSizeMax');
+    // 아직 규칙을 잡을 수 없어서 하나씩 확인
+    double fontSize = 25;
+
+    if (itemSizeMax >= 19) {
       fontSize = 25;
-    } else if (itemSizeMax > 15) {
-      fontSize = 23;
+    } else if (itemSizeMax >= 17) {
+      fontSize = 26;
+    } else if (itemSizeMax >= 16) {
+      fontSize = 28;
+    } else if (itemSizeMax >= 15) {
+      fontSize = 32;
+    } else if (itemSizeMax >= 14) {
+      fontSize = 27;
+    } else if (itemSizeMax >= 13) {
+      fontSize = 30;
+    } else if (itemSizeMax >= 12) {
+      fontSize = 45;
+    } else if (itemSizeMax >= 11) {
+      fontSize = 48;
+    } else if (itemSizeMax >= 10) {
+      fontSize = 50;
+    } else if (itemSizeMax >= 9) {
+      fontSize = 50;
+    } else if (itemSizeMax >= 8) {
+      fontSize = 60;
+    } else if (itemSizeMax >= 7) {
+      fontSize = 70;
+    } else if (itemSizeMax >= 5) {
+      fontSize = 80;
+    } else if (itemSizeMax >= 4) {
+      fontSize = 110;
     }
 
     print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
@@ -283,6 +316,7 @@ class QuizMathBasic extends StatelessWidget {
     return text == "+" ||
         text == "-" ||
         text == "=" ||
+        text == ":" ||
         text == "*" ||
         text == "div" ||
         text == "..." ||

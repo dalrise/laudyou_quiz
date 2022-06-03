@@ -57,6 +57,7 @@ class _MyAppState extends State<MyApp> {
         '기본2',
         "14 의 약수\\spacer,downarrow,spacer\\\\bottomline,bottomline,bottomline,bottomline",
         null),
+    Expression('비례', "7.875,:,12.375", null),
   ];
 
   String _currentText = "";

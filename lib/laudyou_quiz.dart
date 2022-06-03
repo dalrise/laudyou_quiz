@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-export 'src/quiz_math_basic.dart';
+export 'src/math/quiz_math_basic.dart';
 
 // class LaudyouQuiz extends StatelessWidget {
 //   const LaudyouQuiz({Key? key}) : super(key: key);

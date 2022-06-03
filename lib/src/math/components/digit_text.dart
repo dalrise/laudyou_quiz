@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'math/display_oper.dart';
-
 class DigitText extends StatelessWidget {
   final String text;
   double fontSize;
