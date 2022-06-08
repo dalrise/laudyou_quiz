@@ -10,12 +10,16 @@ import 'dart:math';
 class QuizMathBasic extends StatelessWidget {
   final String expression;
   final String? align;
-  final double? height;
+  // final double? width;
+  // final double? height;
+  final double? fontSize;
   const QuizMathBasic({
     Key? key,
     required this.expression,
     this.align,
-    this.height,
+    // this.width,
+    // this.height,
+    this.fontSize, // 호출자에서 fontSize 값을 호출하면 fontSize 를 고정한다.
   }) : super(key: key);
 
   final Color _color = const Color(0xFF376794);
@@ -25,13 +29,18 @@ class QuizMathBasic extends StatelessWidget {
     final arr = expression.split('\\');
 
     //print();
-    print(Dimensions(context).font20);
+    // final calcWidth = width ?? MediaQuery.of(context).size.width;
+    // print(Dimensions(context).font20);
 
-    double fontSize = _fontSize(arr, context);
-    print('fontSize:${fontSize}');
+    double _fontSize = fontSize ?? _fontSizeByLine(arr, context);
+    //fontSize = 12;
+    print('fontSize:${_fontSize}');
+    // fontSize = fontSize / (calcWidth / 20);
+    // print('fontSize:${fontSize}');
 
     return Container(
-      height: height ?? MediaQuery.of(context).size.height / 2,
+      // width: width,
+      // height: height ?? MediaQuery.of(context).size.height / 2,
       //width: MediaQuery.of(context).size.width,
       //constraints: BoxConstraints.expand(height: 100.0),
       //color: Colors.greenAccent,
@@ -42,7 +51,7 @@ class QuizMathBasic extends StatelessWidget {
         children: List.generate(
           arr.length,
           (index) {
-            return _display(arr[index], fontSize);
+            return _display(arr[index], _fontSize);
           },
         ).toList(),
       ),
@@ -194,7 +203,7 @@ class QuizMathBasic extends StatelessWidget {
     //return DigitText(text, fontSize: fontSize);
   }
 
-  double _fontSize(List<String> list, BuildContext context) {
+  double _fontSizeByLine(List<String> list, BuildContext context) {
     final itemSizeList = list.map((str) {
       final arr = str.split(',');
       double itemSize = 0.0;
