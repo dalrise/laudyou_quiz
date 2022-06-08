@@ -10,10 +10,12 @@ import 'dart:math';
 class QuizMathBasic extends StatelessWidget {
   final String expression;
   final String? align;
+  final double? height;
   const QuizMathBasic({
     Key? key,
     required this.expression,
     this.align,
+    this.height,
   }) : super(key: key);
 
   final Color _color = const Color(0xFF376794);
@@ -29,7 +31,7 @@ class QuizMathBasic extends StatelessWidget {
     print('fontSize:${fontSize}');
 
     return Container(
-      height: MediaQuery.of(context).size.height / 2,
+      height: height ?? MediaQuery.of(context).size.height / 2,
       //width: MediaQuery.of(context).size.width,
       //constraints: BoxConstraints.expand(height: 100.0),
       //color: Colors.greenAccent,
