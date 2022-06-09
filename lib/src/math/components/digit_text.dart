@@ -26,6 +26,18 @@ class DigitText extends StatelessWidget {
       fontWeight: FontWeight.w600,
       color: _color,
       letterSpacing: letterSpacing,
+      shadows: [
+        Shadow(
+          offset: Offset(2.0, 2.0),
+          blurRadius: 10.0,
+          color: Colors.black26,
+        ),
+        // Shadow(
+        //   offset: Offset(2.0, 1.0),
+        //   blurRadius: 8.0,
+        //   color: Color.fromARGB(125, 0, 0, 255),
+        // ),
+      ],
     );
   }
 }
