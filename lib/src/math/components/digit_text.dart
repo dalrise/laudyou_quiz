@@ -26,7 +26,7 @@ class DigitText extends StatelessWidget {
       fontWeight: FontWeight.w600,
       color: _color,
       letterSpacing: letterSpacing,
-      shadows: [
+      shadows: const [
         Shadow(
           offset: Offset(2.0, 2.0),
           blurRadius: 10.0,

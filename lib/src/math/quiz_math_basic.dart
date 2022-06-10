@@ -34,7 +34,7 @@ class QuizMathBasic extends StatelessWidget {
 
     double _fontSize = fontSize ?? _fontSizeByLine(arr, context);
     //fontSize = 12;
-    print('fontSize:${_fontSize}');
+    //print('fontSize:${_fontSize}');
     // fontSize = fontSize / (calcWidth / 20);
     // print('fontSize:${fontSize}');
 
@@ -99,18 +99,22 @@ class QuizMathBasic extends StatelessWidget {
       final list = matches.map((m) => m[1]!).toList();
       final maxTextLength = max(list[0].length, list[1].length);
 
-      final width = (maxTextLength * 18.0) + fontSize - 10;
+      final width = (maxTextLength * 18.0) + fontSize - 20;
       //print('maxTextLength:${maxTextLength},width:${width}');
       final top = list[0];
       final bottom = list[1];
+      //print(top);
       return Container(
         child: Column(
           children: [
-            Row(
-              children: List.generate(top.length,
-                      (index) => DigitText(top[index], fontSize: fontSize))
-                  .toList(),
-            ),
+            top.startsWith("[") && top.endsWith("]")
+                ? _makeSquare(top.replaceAll(RegExp(r'[\[|\]]'), ""), fontSize)
+                : Row(
+                    children: List.generate(
+                        top.length,
+                        (index) =>
+                            DigitText(top[index], fontSize: fontSize)).toList(),
+                  ),
             Container(
               height: fontSize / 10,
               width: width,
@@ -120,11 +124,16 @@ class QuizMathBasic extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            Row(
-              children: List.generate(bottom.length,
-                      (index) => DigitText(bottom[index], fontSize: fontSize))
-                  .toList(),
-            ),
+            bottom.startsWith("[") && bottom.endsWith("]")
+                ? _makeSquare(
+                    bottom.replaceAll(RegExp(r'[\[|\]]'), ""), fontSize)
+                : Row(
+                    children: List.generate(
+                            bottom.length,
+                            (index) =>
+                                DigitText(bottom[index], fontSize: fontSize))
+                        .toList(),
+                  ),
           ],
         ),
       );
@@ -145,16 +154,17 @@ class QuizMathBasic extends StatelessWidget {
     } else if (text.startsWith("square")) {
       RegExp regexp = RegExp(r'{(.*?)}');
       String? str = regexp.firstMatch(text)?[1];
-      return Container(
-        width: fontSize + 15,
-        height: fontSize + 15,
-        margin: EdgeInsets.only(bottom: fontSize / 10),
-        decoration: BoxDecoration(
-          border: Border.all(color: _color, width: 2),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(child: DigitText(str ?? "", fontSize: fontSize)),
-      );
+      return _makeSquare(str, fontSize);
+      // return Container(
+      //   width: fontSize + 15,
+      //   height: fontSize + 15,
+      //   margin: EdgeInsets.only(bottom: fontSize / 10),
+      //   decoration: BoxDecoration(
+      //     border: Border.all(color: _color, width: 2),
+      //     borderRadius: BorderRadius.circular(10),
+      //   ),
+      //   child: Center(child: DigitText(str ?? "", fontSize: fontSize)),
+      // );
     } else if (text.startsWith("blank")) {
       RegExp regexp = RegExp(r'{(.*?)}');
       double number = fontSize;
@@ -201,6 +211,19 @@ class QuizMathBasic extends StatelessWidget {
     );
 
     //return DigitText(text, fontSize: fontSize);
+  }
+
+  Widget _makeSquare(String? str, double fontSize) {
+    return Container(
+      width: fontSize + 15,
+      height: fontSize + 15,
+      margin: EdgeInsets.only(top: fontSize / 10, bottom: fontSize / 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: _color, width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Center(child: DigitText(str ?? "", fontSize: fontSize)),
+    );
   }
 
   double _fontSizeByLine(List<String> list, BuildContext context) {
@@ -294,7 +317,7 @@ class QuizMathBasic extends StatelessWidget {
       fontSize = 110;
     }
 
-    print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
+    //print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
 
     return fontSize;
   }

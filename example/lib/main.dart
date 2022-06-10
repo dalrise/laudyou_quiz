@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
     Expression('기본2', "deco{3},+,6,+,deco{7}", null),
     Expression('기본2', "deco{3},+,6,+,deco{7-1},+,9", null),
     Expression('기본2', "500,+,300", null),
-    Expression('기본2', "7,frac{1}{6},=,frac{42+1}{6},=,frac{a}{b}", null),
+    Expression('기본21', "7,frac{1}{6},=,frac{42+1}{6},=,frac{[a]}{[b]}", null),
     Expression('기본2', "7,frac{1}{6},circle,frac{42+1}{6}", null),
     Expression('기본2', "43,*,43,=,square{a}", null),
     Expression(
