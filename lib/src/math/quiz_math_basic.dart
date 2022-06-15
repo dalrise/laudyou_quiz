@@ -44,10 +44,11 @@ class QuizMathBasic extends StatelessWidget {
       //width: MediaQuery.of(context).size.width,
       //constraints: BoxConstraints.expand(height: 100.0),
       //color: Colors.greenAccent,
+      //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20),
       child: Column(
         //mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           arr.length,
           (index) {
