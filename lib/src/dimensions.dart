@@ -21,6 +21,7 @@ class Dimensions {
   late double font24;
   late double font27;
   late double font30;
+  late double font45;
   late double font50;
   late double font90;
 
@@ -34,6 +35,7 @@ class Dimensions {
     font24 = screenWidth / 16.66;
     font27 = screenWidth / 14.81;
     font30 = screenWidth / 13.33;
+    font45 = screenWidth / 8.88;
     font50 = screenWidth / 8.0;
     font90 = screenWidth / 4.44;
   }

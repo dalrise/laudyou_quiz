@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:laudyou_quiz/laudyou_quiz.dart';
+import 'dart:math';
 
 import '../dimensions.dart';
 import 'components/digit_text.dart';
 import './components/display_oper.dart';
-import 'dart:math';
 
 class QuizMathBasic extends StatelessWidget {
   final String expression;
@@ -33,6 +32,7 @@ class QuizMathBasic extends StatelessWidget {
     // print(Dimensions(context).font20);
 
     double _fontSize = fontSize ?? _fontSizeByLine(arr, context);
+    //_fontSize += Dimensions(context).font14;
     //fontSize = 12;
     //print('fontSize:${_fontSize}');
     // fontSize = fontSize / (calcWidth / 20);
@@ -44,11 +44,12 @@ class QuizMathBasic extends StatelessWidget {
       //width: MediaQuery.of(context).size.width,
       //constraints: BoxConstraints.expand(height: 100.0),
       //color: Colors.greenAccent,
-      //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20),
+      padding: EdgeInsets.only(
+          top: fontSize == null ? MediaQuery.of(context).size.height / 20 : 0),
       child: Column(
         //mainAxisSize: MainAxisSize.max,
-        //crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: List.generate(
           arr.length,
           (index) {
@@ -156,16 +157,6 @@ class QuizMathBasic extends StatelessWidget {
       RegExp regexp = RegExp(r'{(.*?)}');
       String? str = regexp.firstMatch(text)?[1];
       return _makeSquare(str, fontSize);
-      // return Container(
-      //   width: fontSize + 15,
-      //   height: fontSize + 15,
-      //   margin: EdgeInsets.only(bottom: fontSize / 10),
-      //   decoration: BoxDecoration(
-      //     border: Border.all(color: _color, width: 2),
-      //     borderRadius: BorderRadius.circular(10),
-      //   ),
-      //   child: Center(child: DigitText(str ?? "", fontSize: fontSize)),
-      // );
     } else if (text.startsWith("blank")) {
       RegExp regexp = RegExp(r'{(.*?)}');
       double number = fontSize;
@@ -286,36 +277,36 @@ class QuizMathBasic extends StatelessWidget {
     //double fontSize = 100 - (itemSizeMax * 7.5) + 20;
     //print('itemSizeMax:$itemSizeMax');
     // 아직 규칙을 잡을 수 없어서 하나씩 확인
-    double fontSize = 25;
+    double fontSize = Dimensions(context).font24; //25;
 
     if (itemSizeMax >= 19) {
-      fontSize = 25;
+      fontSize = Dimensions(context).font24;
     } else if (itemSizeMax >= 17) {
-      fontSize = 26;
+      fontSize = Dimensions(context).font24 + 2;
     } else if (itemSizeMax >= 16) {
-      fontSize = 28;
+      fontSize = Dimensions(context).font27;
     } else if (itemSizeMax >= 15) {
-      fontSize = 32;
+      fontSize = Dimensions(context).font30 + 2; //32;
     } else if (itemSizeMax >= 14) {
-      fontSize = 27;
+      fontSize = Dimensions(context).font30; //27;
     } else if (itemSizeMax >= 13) {
-      fontSize = 30;
+      fontSize = Dimensions(context).font30; //30;
     } else if (itemSizeMax >= 12) {
-      fontSize = 45;
+      fontSize = Dimensions(context).font45; //45;
     } else if (itemSizeMax >= 11) {
-      fontSize = 48;
+      fontSize = Dimensions(context).font45 + 3; //48;
     } else if (itemSizeMax >= 10) {
-      fontSize = 50;
+      fontSize = Dimensions(context).font50; //50;
     } else if (itemSizeMax >= 9) {
-      fontSize = 50;
+      fontSize = Dimensions(context).font50; //50;
     } else if (itemSizeMax >= 8) {
-      fontSize = 60;
+      fontSize = Dimensions(context).font50 + 10; //60;
     } else if (itemSizeMax >= 7) {
-      fontSize = 70;
+      fontSize = Dimensions(context).font50 + 20; //70;
     } else if (itemSizeMax >= 5) {
-      fontSize = 80;
+      fontSize = Dimensions(context).font50 + 30; //80;
     } else if (itemSizeMax >= 4) {
-      fontSize = 110;
+      fontSize = Dimensions(context).font90 + 20; // 110;
     }
 
     //print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');

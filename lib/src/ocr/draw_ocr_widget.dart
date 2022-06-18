@@ -17,7 +17,7 @@ class DrawOcrWidget extends StatefulWidget {
       required this.close,
       this.width = 200,
       this.height = 200,
-      this.backgroundColor = AppColors.praiseCdColor,
+      this.backgroundColor = Colors.white,
       this.strokeWidth = 5.0,
       required this.points,
       this.ocrIndex = 1})
@@ -104,6 +104,10 @@ class _DrawOcrWidget extends State<DrawOcrWidget> {
     return Container(
       width: widget.width,
       height: widget.height,
+      decoration: BoxDecoration(
+        color: widget.backgroundColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Stack(
         children: [
           Builder(

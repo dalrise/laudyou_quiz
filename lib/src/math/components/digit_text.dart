@@ -22,6 +22,7 @@ class DigitText extends StatelessWidget {
 
   TextStyle _textStyle(double fontSize, {double letterSpacing = 0}) {
     return TextStyle(
+      fontFamily: "Roboto",
       fontSize: fontSize,
       fontWeight: FontWeight.w600,
       color: _color,
