@@ -5,7 +5,7 @@ import '../ocr/draw_ocr_widget.dart';
 
 /// ocr 영역 처리
 class QuizMathDraw extends StatelessWidget {
-  final String question;
+  //final String question;
   final String answer;
   final VoidCallback onAnswerCorrect;
   final double width;
@@ -23,7 +23,7 @@ class QuizMathDraw extends StatelessWidget {
 
   QuizMathDraw({
     Key? key,
-    required this.question,
+    //required this.question,
     required this.answer,
     required this.onAnswerCorrect,
     required this.width,

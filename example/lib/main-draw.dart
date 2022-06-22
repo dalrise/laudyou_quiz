@@ -26,7 +26,7 @@ class MainDraw extends StatelessWidget {
               print("close");
             },
             answer: '11',
-            question: '1,+,2',
+            //question: '1,+,2',
           ),
         ),
       ),
