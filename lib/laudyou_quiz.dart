@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 export 'src/math/quiz_math_basic.dart';
 export 'src/math/quiz_math_draw.dart';
 
+export 'src/ocr/draw_ocr_predict_model.dart';
 export 'src/utils/quiz_util.dart';
 
 // class LaudyouQuiz extends StatelessWidget {

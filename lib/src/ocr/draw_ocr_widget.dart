@@ -15,6 +15,7 @@ class DrawOcrWidget extends StatefulWidget {
       required this.onPredict,
       required this.loadModel,
       required this.close,
+      this.maskingText,
       this.width = 200,
       this.height = 200,
       this.backgroundColor = Colors.white,
@@ -28,6 +29,7 @@ class DrawOcrWidget extends StatefulWidget {
   final Function() close;
   final Function(double, List<Offset?>) predict;
   final ValueChanged<DrawOcrPredictModel> onPredict;
+  final String? maskingText;
   final double width;
   final double height;
   final Color backgroundColor;
@@ -146,17 +148,8 @@ class _DrawOcrWidget extends State<DrawOcrWidget> {
             },
           ),
           _buildClearIcon(),
-          Positioned(
-            left: drawingPaint!.strokeWidth == 5.0 ? 0 : 10,
-            top: drawingPaint!.strokeWidth == 5.0 ? -2 : 5,
-            child: Text(
-              predictLabel,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: drawingPaint!.strokeWidth == 5.0 ? 20 : 30,
-                  color: Colors.red),
-            ),
-          ),
+          _buildPredictLabel(),
+          _buildMasking(),
         ],
       ),
     );
@@ -185,6 +178,37 @@ class _DrawOcrWidget extends State<DrawOcrWidget> {
               icon: const Icon(
                 FontAwesomeIcons.eraser,
                 color: AppColors.mainColor,
+              ),
+            ),
+          );
+  }
+
+  Widget _buildPredictLabel() {
+    return Positioned(
+      left: drawingPaint!.strokeWidth == 5.0 ? 0 : 10,
+      top: drawingPaint!.strokeWidth == 5.0 ? -2 : 5,
+      child: Text(
+        predictLabel,
+        style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: drawingPaint!.strokeWidth == 5.0 ? 20 : 30,
+            color: Colors.red),
+      ),
+    );
+  }
+
+  Widget _buildMasking() {
+    print("widget.maskingText:${widget.maskingText}");
+    return widget.maskingText == null
+        ? Container()
+        : Center(
+            child: Container(
+              child: Text(
+                widget.maskingText!,
+                style: TextStyle(
+                    color: Colors.black12,
+                    //fontWeight: FontWeight.w600,
+                    fontSize: widget.width / 2),
               ),
             ),
           );

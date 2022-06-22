@@ -20,12 +20,13 @@ class MainDraw extends StatelessWidget {
           child: QuizMathDraw(
             loadModel: loadModel,
             predict: processCanvasPointsV2,
-            onAnswerCorrect: () {},
+            //onAnswerCorrect: () {},
             width: 100,
             close: () {
               print("close");
             },
-            answer: '11',
+            //answer: '11',
+            onPredict: (DrawOcrPredictModel value) {}, ocrIndex: 0,
             //question: '1,+,2',
           ),
         ),

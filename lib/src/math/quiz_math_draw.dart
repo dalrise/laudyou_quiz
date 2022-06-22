@@ -6,11 +6,13 @@ import '../ocr/draw_ocr_widget.dart';
 /// ocr 영역 처리
 class QuizMathDraw extends StatelessWidget {
   //final String question;
-  final String answer;
-  final VoidCallback onAnswerCorrect;
+  //final String answer;
+  //final VoidCallback onAnswerCorrect;
+  ValueChanged<DrawOcrPredictModel> onPredict;
+  final String? maskingText;
   final double width;
   final double height;
-
+  final int ocrIndex; // 화면에 표시되는 ocr index 번호
   //final Function<Future>(double, List<Offset?>) predict;
   final Function(double, List<Offset?>) predict;
   final Function() loadModel;
@@ -18,14 +20,17 @@ class QuizMathDraw extends StatelessWidget {
 
   List<Offset?> points = [];
   List<Offset?> ocrPoints1 = [];
-  List<Offset?> ocrPoints2 = []; // 2번째 ocr input 용
-  Map<int, String> answerMap = {};
+  //List<Offset?> ocrPoints2 = []; // 2번째 ocr input 용
+  //Map<int, String> answerMap = {};
 
   QuizMathDraw({
     Key? key,
     //required this.question,
-    required this.answer,
-    required this.onAnswerCorrect,
+    //required this.answer,
+    //required this.onAnswerCorrect,
+    required this.ocrIndex,
+    required this.onPredict,
+    this.maskingText,
     required this.width,
     this.height = 150.0,
     required this.predict,
@@ -36,17 +41,21 @@ class QuizMathDraw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DrawOcrWidget(
+      ocrIndex: ocrIndex,
       points: ocrPoints1,
       width: width,
       height: height,
+      maskingText: maskingText,
       strokeWidth: 10.0,
       predict: predict,
       loadModel: loadModel,
       close: close,
-      onPredict: _ocrPredict,
+      onPredict: onPredict,
+      //onPredict: _ocrPredict,
     );
   }
 
+  /*
   _ocrPredict(DrawOcrPredictModel data) {
     //print("onPredict:" + data.toString());
     String? remain =
@@ -71,6 +80,8 @@ class QuizMathDraw extends StatelessWidget {
       onAnswerCorrect();
     }
   }
+
+   */
 }
 
 extension FirstWhereExt<T> on List<T> {
