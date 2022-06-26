@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:laudyou_quiz/src/config/app_colors.dart';
 
 class DisplayOperText extends StatelessWidget {
   final String text;
@@ -34,11 +37,11 @@ class DisplayOperText extends StatelessWidget {
       icon = CupertinoIcons.equal;
     } else if (text == "div") {
       icon = CupertinoIcons.divide;
-    } else if (text == "rightarrow") {
+    } else if (text == "arrow-right") {
       icon = CupertinoIcons.arrow_right;
       fontSize -= 5; // 화살표의 사이즈가 다른 아이콘보다 크다.
-    } else if (text == "downarrow") {
-      icon = CupertinoIcons.arrow_down;
+    } else if (text == "arrow-down") {
+      icon = FontAwesomeIcons.arrowAltCircleDown;
       marginVertical = 10;
     } else if (text == "...") {
       icon = CupertinoIcons.circle_fill;
@@ -52,6 +55,13 @@ class DisplayOperText extends StatelessWidget {
 
     if (fontSize > 15) {
       paddingWidth = 5;
+    }
+
+    if (text.startsWith("arrow-down-")) {
+      return Container(
+        child: SvgPicture.asset("assets/icons/icon_$text.svg",
+            color: AppColors.iconColor1),
+      );
     }
 
     if (icon != null) {

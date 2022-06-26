@@ -27,6 +27,7 @@ class MainDraw extends StatelessWidget {
             },
             //answer: '11',
             onPredict: (DrawOcrPredictModel value) {}, ocrIndex: 0,
+            ocrPoints: [],
             //question: '1,+,2',
           ),
         ),

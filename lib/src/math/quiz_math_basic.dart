@@ -1,12 +1,16 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import '../config/app_colors.dart';
 import '../dimensions.dart';
 import 'components/digit_text.dart';
 import './components/display_oper.dart';
+import 'components/math_vertical_divide.dart';
 
 class QuizMathBasic extends StatelessWidget {
+  final String template;
   final String expression;
   final String? align;
   // final double? width;
@@ -14,6 +18,7 @@ class QuizMathBasic extends StatelessWidget {
   final double? fontSize;
   const QuizMathBasic({
     Key? key,
+    required this.template,
     required this.expression,
     this.align,
     // this.width,
@@ -73,6 +78,27 @@ class QuizMathBasic extends StatelessWidget {
     if (text.startsWith("deco")) {
       RegExp regexp = RegExp(r'{(.*?)}');
       String str = regexp.firstMatch(text)?[1] ?? "";
+      return DottedBorder(
+        borderType: BorderType.RRect,
+        color: AppColors.mainColor,
+        radius: Radius.circular(5),
+        //margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          child: Center(
+            child: Row(
+              children: List.generate(str.length, (index) {
+                return DigitText(
+                  str[index],
+                  fontSize: fontSize,
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      );
+      /*
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),
         padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -92,6 +118,8 @@ class QuizMathBasic extends StatelessWidget {
           ),
         ),
       );
+
+       */
     } else if (text.startsWith("spacer")) {
       return const Spacer();
     } else if (text.startsWith("frac")) {
@@ -154,20 +182,39 @@ class QuizMathBasic extends StatelessWidget {
         child: Center(child: DigitText(str ?? "", fontSize: fontSize)),
       );
     } else if (text.startsWith("square")) {
+      // 정답용 masking
       RegExp regexp = RegExp(r'{(.*?)}');
       String? str = regexp.firstMatch(text)?[1];
       return _makeSquare(str, fontSize);
+    } else if (text.startsWith("rectangle")) {
+      RegExp regexp = RegExp(r'{(.*?)}');
+      String? str = regexp.firstMatch(text)?[1];
+      //print(str);
+      double? width;
+      if (str!.length > 1) {
+        width = fontSize * str.length * 0.7;
+      }
+      return _makeSquare(str, fontSize, width: width);
     } else if (text.startsWith("blank")) {
       RegExp regexp = RegExp(r'{(.*?)}');
-      double number = fontSize;
+      Iterable<Match> matches = regexp.allMatches(text);
+
+      double width = fontSize;
+      double height = fontSize;
+
       if (regexp.firstMatch(text)?[1] != null) {
-        number = double.parse(regexp.firstMatch(text)?[1] ?? '0');
+        final list = matches.map((m) => m[1]!).toList();
+        print(list);
+        width = double.parse(list[0]);
+        if (list.length > 1) {
+          height = double.parse(list[1]);
+        }
       }
 
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        width: number,
-        height: number,
+        width: width,
+        height: height,
         child: Text("", style: TextStyle(fontSize: fontSize)),
       );
     } else if (_isOperation(text)) {
@@ -191,6 +238,35 @@ class QuizMathBasic extends StatelessWidget {
         ),
         child: Center(child: Text(str ?? "")),
       );
+    } else if (text.startsWith("arrow-down-")) {
+      String? str = text.split('-')[2];
+      print(str);
+      double number = fontSize;
+      return Container(
+        width: fontSize + 10,
+        height: fontSize + 10,
+        //padding: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        child: Center(child: DisplayOperText(text, fontSize: fontSize)),
+      );
+    } else if (text.startsWith("divide")) {
+      /// 세로형 나눗셈 (따로 widget 으로 분리)
+      RegExp regexp = RegExp(r'{(.*?)}');
+      Iterable<Match> matches = regexp.allMatches(text);
+      final list = matches.map((m) => m[1]!).toList();
+      final maxTextLength = max(list[0].length, list[1].length);
+
+      final width = (maxTextLength * 18.0) + fontSize - 20;
+      //print('maxTextLength:${maxTextLength},width:${width}');
+      final top = list[0];
+      final bottom = list[1];
+
+      print("나누기 !!");
+
+      return MathVerticalDivide(
+        arr: list,
+        fontSize: fontSize,
+      );
     }
 
     return Row(
@@ -205,9 +281,9 @@ class QuizMathBasic extends StatelessWidget {
     //return DigitText(text, fontSize: fontSize);
   }
 
-  Widget _makeSquare(String? str, double fontSize) {
+  Widget _makeSquare(String? str, double fontSize, {double? width}) {
     return Container(
-      width: fontSize + 15,
+      width: width ?? fontSize + 15,
       height: fontSize + 15,
       margin: EdgeInsets.only(top: fontSize / 10, bottom: fontSize / 10),
       decoration: BoxDecoration(
@@ -225,22 +301,33 @@ class QuizMathBasic extends StatelessWidget {
 
       itemSize = arr.map(
         (s) {
-          if (s.startsWith("deco") || s.startsWith("frac")) {
+          if (s.startsWith("deco") ||
+              s.startsWith("frac") ||
+              s.startsWith("divide") ||
+              s.startsWith("rectangle")) {
             // 분자와 분모중 큰 사이즈를 반환
             RegExp regexp = RegExp(r'{(.*?)}');
             final matches = regexp.allMatches(s);
             final list = matches.map((m) => m[1]!).toList();
+
+            print('_fontSizeByLine:' + list.join(','));
+
+            if (template == "VERTICAL_DIVIDE" && s.startsWith("divide")) {
+              /// 세로 나눗셈
+              //weight = 1.7;
+              return list[0].length + list[1].length * 1.0;
+            }
 
             // 1 값을 더해서 폰트 사이즈를 더 적게 처리
             if (list.length == 1) {
               return list[0].length * 1.0;
             }
             //return 0.0;
-            // print(list[0] +
-            //     "," +
-            //     list[1] +
-            //     "=" +
-            //     max(list[0].length + 1, list[1].length).toString());
+            print(list[0] +
+                "," +
+                list[1] +
+                ", max:" +
+                max(list[0].length + 1, list[1].length).toString());
             //print(list);
             return max(list[0].length * 1.0, list[1].length * 1.0) + 0.5;
             //return max(list[0].length * 1.0, list[1].length * 1.0);
@@ -248,14 +335,17 @@ class QuizMathBasic extends StatelessWidget {
             return 0.5;
           } else if (s == "circle" || s.startsWith("square")) {
             return 1.5;
-          } else if (s == "rightarrow" ||
-              s == "downarrow" ||
+          } else if (s == "arrow-right" ||
+              s == "arrow-down" ||
               s == "bottomline" ||
               s.startsWith("blank") ||
               s.startsWith("spacer")) {
             return 1.0;
           } else if (s == "+" || s == "-" || s == "*" || s == "=" || s == ":") {
             return 1.2;
+          } else if (s.startsWith("arrow-down")) {
+            // 두수 가르기
+            return 2.5;
           }
 
           s = s.replaceAll(RegExp(r'[{|}|(|)]'), "");
@@ -307,9 +397,13 @@ class QuizMathBasic extends StatelessWidget {
       fontSize = Dimensions(context).font50 + 30; //80;
     } else if (itemSizeMax >= 4) {
       fontSize = Dimensions(context).font90 + 20; // 110;
+    } else if (itemSizeMax >= 3) {
+      fontSize = Dimensions(context).font90 + 30; // 110;
+    } else if (itemSizeMax >= 2) {
+      fontSize = Dimensions(context).font90 + 40; // 110;
     }
 
-    //print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
+    print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
 
     return fontSize;
   }
@@ -346,16 +440,16 @@ class QuizMathBasic extends StatelessWidget {
         text == "*" ||
         text == "div" ||
         text == "..." ||
-        text == "rightarrow" ||
-        text == "downarrow";
+        text == "arrow-right" ||
+        text == "arrow-down";
   }
 
   Widget _displayIcons(String text, double fontSize) {
     //print("_displayIcons:${text}");
-    if (text.startsWith("rightarrow")) {
+    if (text.startsWith("arrow-right")) {
       return Icon(CupertinoIcons.arrow_right, size: fontSize);
     }
-    if (text.startsWith("downarrow")) {
+    if (text.startsWith("arrow-down")) {
       RegExp regexp = RegExp(r'{(.*?)}');
       String? str = regexp.firstMatch(text)?[1];
       print(str);

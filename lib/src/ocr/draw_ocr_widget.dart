@@ -198,7 +198,7 @@ class _DrawOcrWidget extends State<DrawOcrWidget> {
   }
 
   Widget _buildMasking() {
-    print("widget.maskingText:${widget.maskingText}");
+    //print("widget.maskingText:${widget.maskingText}");
     return widget.maskingText == null
         ? Container()
         : Center(

@@ -8,18 +8,22 @@ class QuizMathDraw extends StatelessWidget {
   //final String question;
   //final String answer;
   //final VoidCallback onAnswerCorrect;
-  ValueChanged<DrawOcrPredictModel> onPredict;
+  /// ocr 처리 결과 리턴 함수
+  final ValueChanged<DrawOcrPredictModel> onPredict;
+
+
   final String? maskingText;
   final double width;
   final double height;
   final int ocrIndex; // 화면에 표시되는 ocr index 번호
+
   //final Function<Future>(double, List<Offset?>) predict;
   final Function(double, List<Offset?>) predict;
   final Function() loadModel;
   final Function() close;
 
-  List<Offset?> points = [];
-  List<Offset?> ocrPoints1 = [];
+  //List<Offset?> points = [];
+  final List<Offset?> ocrPoints;
   //List<Offset?> ocrPoints2 = []; // 2번째 ocr input 용
   //Map<int, String> answerMap = {};
 
@@ -34,6 +38,7 @@ class QuizMathDraw extends StatelessWidget {
     required this.width,
     this.height = 150.0,
     required this.predict,
+    required this.ocrPoints,
     required this.loadModel,
     required this.close,
   }) : super(key: key);
@@ -42,7 +47,7 @@ class QuizMathDraw extends StatelessWidget {
   Widget build(BuildContext context) {
     return DrawOcrWidget(
       ocrIndex: ocrIndex,
-      points: ocrPoints1,
+      points: ocrPoints,
       width: width,
       height: height,
       maskingText: maskingText,
