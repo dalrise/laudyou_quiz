@@ -12,7 +12,7 @@ class Dimensions {
 
   final BuildContext _context;
 
-  late double screenWidth;
+  double? screenWidth;
 
   late double font14;
   late double font16;
@@ -25,19 +25,21 @@ class Dimensions {
   late double font50;
   late double font90;
 
-  Dimensions(this._context) {
-    screenWidth = MediaQuery.of(_context).size.width;
+  Dimensions(this._context, {this.screenWidth}) {
+    screenWidth ??= MediaQuery.of(_context).size.width;
 
-    font14 = screenWidth / 28.57;
-    font16 = screenWidth / 25.0;
-    font18 = screenWidth / 22.22;
-    font20 = screenWidth / 20.0;
-    font24 = screenWidth / 16.66;
-    font27 = screenWidth / 14.81;
-    font30 = screenWidth / 13.33;
-    font45 = screenWidth / 8.88;
-    font50 = screenWidth / 8.0;
-    font90 = screenWidth / 4.44;
+    //print('screenWidth:$screenWidth');
+
+    font14 = screenWidth! / 28.57;
+    font16 = screenWidth! / 25.0;
+    font18 = screenWidth! / 22.22;
+    font20 = screenWidth! / 20.0;
+    font24 = screenWidth! / 16.66;
+    font27 = screenWidth! / 14.81;
+    font30 = screenWidth! / 13.33;
+    font45 = screenWidth! / 8.88;
+    font50 = screenWidth! / 8.0;
+    font90 = screenWidth! / 4.44;
   }
 
   // get screenWidth {

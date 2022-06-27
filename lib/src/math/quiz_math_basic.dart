@@ -13,7 +13,7 @@ class QuizMathBasic extends StatelessWidget {
   final String template;
   final String expression;
   final String? align;
-  // final double? width;
+  final double? screenWidth;
   // final double? height;
   final double? fontSize;
   const QuizMathBasic({
@@ -21,7 +21,7 @@ class QuizMathBasic extends StatelessWidget {
     required this.template,
     required this.expression,
     this.align,
-    // this.width,
+    this.screenWidth,
     // this.height,
     this.fontSize, // 호출자에서 fontSize 값을 호출하면 fontSize 를 고정한다.
   }) : super(key: key);
@@ -204,7 +204,7 @@ class QuizMathBasic extends StatelessWidget {
 
       if (regexp.firstMatch(text)?[1] != null) {
         final list = matches.map((m) => m[1]!).toList();
-        print(list);
+        //print(list);
         width = double.parse(list[0]);
         if (list.length > 1) {
           height = double.parse(list[1]);
@@ -240,8 +240,8 @@ class QuizMathBasic extends StatelessWidget {
       );
     } else if (text.startsWith("arrow-down-")) {
       String? str = text.split('-')[2];
-      print(str);
-      double number = fontSize;
+      //print(str);
+      //double number = fontSize;
       return Container(
         width: fontSize + 10,
         height: fontSize + 10,
@@ -323,11 +323,11 @@ class QuizMathBasic extends StatelessWidget {
               return list[0].length * 1.0;
             }
             //return 0.0;
-            print(list[0] +
-                "," +
-                list[1] +
-                ", max:" +
-                max(list[0].length + 1, list[1].length).toString());
+            // print(list[0] +
+            //     "," +
+            //     list[1] +
+            //     ", max:" +
+            //     max(list[0].length + 1, list[1].length).toString());
             //print(list);
             return max(list[0].length * 1.0, list[1].length * 1.0) + 0.5;
             //return max(list[0].length * 1.0, list[1].length * 1.0);
@@ -367,40 +367,48 @@ class QuizMathBasic extends StatelessWidget {
     //double fontSize = 100 - (itemSizeMax * 7.5) + 20;
     //print('itemSizeMax:$itemSizeMax');
     // 아직 규칙을 잡을 수 없어서 하나씩 확인
-    double fontSize = Dimensions(context).font24; //25;
+
+    double fontSize =
+        Dimensions(context, screenWidth: screenWidth).font24; //25;
 
     if (itemSizeMax >= 19) {
-      fontSize = Dimensions(context).font24;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font24;
     } else if (itemSizeMax >= 17) {
-      fontSize = Dimensions(context).font24 + 2;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font24 + 2;
     } else if (itemSizeMax >= 16) {
-      fontSize = Dimensions(context).font27;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font27;
     } else if (itemSizeMax >= 15) {
-      fontSize = Dimensions(context).font30 + 2; //32;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font30 + 2; //32;
     } else if (itemSizeMax >= 14) {
-      fontSize = Dimensions(context).font30; //27;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font30; //27;
     } else if (itemSizeMax >= 13) {
-      fontSize = Dimensions(context).font30; //30;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font30; //30;
     } else if (itemSizeMax >= 12) {
-      fontSize = Dimensions(context).font45; //45;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font45; //45;
     } else if (itemSizeMax >= 11) {
-      fontSize = Dimensions(context).font45 + 3; //48;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font45 + 3; //48;
     } else if (itemSizeMax >= 10) {
-      fontSize = Dimensions(context).font50; //50;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font50; //50;
     } else if (itemSizeMax >= 9) {
-      fontSize = Dimensions(context).font50; //50;
+      fontSize = Dimensions(context, screenWidth: screenWidth).font50; //50;
     } else if (itemSizeMax >= 8) {
-      fontSize = Dimensions(context).font50 + 10; //60;
+      fontSize =
+          Dimensions(context, screenWidth: screenWidth).font50 + 10; //60;
     } else if (itemSizeMax >= 7) {
-      fontSize = Dimensions(context).font50 + 20; //70;
+      fontSize =
+          Dimensions(context, screenWidth: screenWidth).font50 + 20; //70;
     } else if (itemSizeMax >= 5) {
-      fontSize = Dimensions(context).font50 + 30; //80;
+      fontSize =
+          Dimensions(context, screenWidth: screenWidth).font50 + 30; //80;
     } else if (itemSizeMax >= 4) {
-      fontSize = Dimensions(context).font90 + 20; // 110;
+      fontSize =
+          Dimensions(context, screenWidth: screenWidth).font90 + 20; // 110;
     } else if (itemSizeMax >= 3) {
-      fontSize = Dimensions(context).font90 + 30; // 110;
+      fontSize =
+          Dimensions(context, screenWidth: screenWidth).font90 + 30; // 110;
     } else if (itemSizeMax >= 2) {
-      fontSize = Dimensions(context).font90 + 40; // 110;
+      fontSize =
+          Dimensions(context, screenWidth: screenWidth).font90 + 40; // 110;
     }
 
     print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
@@ -452,7 +460,7 @@ class QuizMathBasic extends StatelessWidget {
     if (text.startsWith("arrow-down")) {
       RegExp regexp = RegExp(r'{(.*?)}');
       String? str = regexp.firstMatch(text)?[1];
-      print(str);
+      //print(str);
       //if (str == "center") {
       return Expanded(
         child: Align(
