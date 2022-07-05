@@ -310,7 +310,7 @@ class QuizMathBasic extends StatelessWidget {
             final matches = regexp.allMatches(s);
             final list = matches.map((m) => m[1]!).toList();
 
-            print('_fontSizeByLine:' + list.join(','));
+            //print('_fontSizeByLine:' + list.join(','));
 
             if (template == "VERTICAL_DIVIDE" && s.startsWith("divide")) {
               /// 세로 나눗셈
@@ -411,7 +411,7 @@ class QuizMathBasic extends StatelessWidget {
           Dimensions(context, screenWidth: screenWidth).font90 + 40; // 110;
     }
 
-    print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
+    //print('itemSizeMax:${itemSizeMax}, fontSize:$fontSize');
 
     return fontSize;
   }
